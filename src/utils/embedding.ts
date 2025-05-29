@@ -101,6 +101,9 @@ export async function processLegalQuestion(question: string) {
       normalize: true
     });
 
+    // Ensure we have arrays for the embeddings and convert to numbers
+    const questionEmbeddingArray = Array.from(questionEmbedding.data).map(x => Number(x));
+    const answerEmbeddingArray = Array.from(answerEmbedding.data).map(x => Number(x));
 
     // Calculate similarities and filter out empty texts
     console.log('Finding similar articles...');
@@ -108,7 +111,7 @@ export async function processLegalQuestion(question: string) {
       .filter(article => article.text && article.text.trim().length > 0)
       .map(article => ({
         article_number: article.article_number,
-        similarity: cosineSimilarity(answerEmbedding, article.embedding),
+        similarity: cosineSimilarity(answerEmbeddingArray, article.embedding),
         text: article.text
       }));
 
