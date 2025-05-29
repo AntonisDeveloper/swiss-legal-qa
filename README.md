@@ -66,7 +66,7 @@ A Next.js application that provides answers to legal questions based on the Swis
 
 # Main code
 
-## Embedding text
+## Preprocessing
 ### Load Model:
 ```typescript
 import { pipeline } from '@xenova/transformers';
@@ -127,7 +127,7 @@ const batchSize = 10;
         }
 ```
 
-## Processing Queston
+## Runtime Backend
 ### OpenAI API Call to get initial answer
 ```typescript
 async function getOpenAIAnswer(question, context) {
@@ -164,6 +164,54 @@ async function getOpenAIAnswer(question, context) {
     return data.choices[0].message.content;
 }
 ```
+
+### Main Processing part
+```typescript
+async function processLegalQuestion(question) {
+    // Load text embedder 
+    const embedder = await (0, transformers_1.pipeline)('feature-extraction', 'Xenova/paraphrase-MiniLM-L6-v2');
+    // Get initial answer from OpenAI
+    const initialAnswer = await getOpenAIAnswer(question);
+
+    // Load article embeddings
+    console.log('Loading article embeddings...');
+    const embeddingsData = JSON.parse(fs.readFileSync('article_embeddings.json', 'utf-8'));
+
+    // Create embeddings for initial answer
+    const answerEmbedding = await embedder(initialAnswer, {
+        pooling: 'mean',
+        normalize: true
+    });
+
+    // Calculate cosine similarities
+    const similarities = embeddingsData
+        .map(article => ({
+        article_number: article.article_number,
+        similarity: cosineSimilarity(answerEmbedding, article.embedding),
+        text: article.text
+    }));
+    // Sort by similarity and get top 20
+    const topArticles = similarities
+        .sort((a, b) => b.similarity - a.similarity)
+        .slice(0, 20);
+
+    // Concatenate articles with their numbers
+    const articlesContext = topArticles
+        .map(article => `Article ${article.article_number}:\n${article.text}`)
+        .join('\n\n');
+
+    // Get final answer using the articles as context
+    const finalAnswer = await getOpenAIAnswer(question, articlesContext);
+    console.log('\nFinal Answer:', finalAnswer);
+    return {
+        question,
+        initialAnswer,
+        finalAnswer,
+        topArticles
+    };
+}
+```
+
 ## License
 
 MIT
