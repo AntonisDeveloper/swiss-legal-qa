@@ -64,6 +64,106 @@ A Next.js application that provides answers to legal questions based on the Swis
 
 - `OPENAI_API_KEY`: Your OpenAI API key
 
+# Main code
+
+## Embedding text
+### Load Model:
+```typescript
+import { pipeline } from '@xenova/transformers';
+const embedder = await pipeline('feature-extraction', 'Xenova/paraphrase-MiniLM-L6-v2') as EmbedderFunction;
+```
+
+### Embed Articles:
+```typescript
+const batchSize = 10;
+  for (let i = 0; i < articles.length; i += batchSize) {
+    const batch = articles.slice(i, i + batchSize);
+    console.log(`Processing batch ${i/batchSize + 1} of ${Math.ceil(articles.length/batchSize)}`);
+    
+    for (const article of batch) {
+      try {
+        // Create the input string
+        const embedInput = `${article.article_text}`;
+
+        // Split long text into chunks
+        const words = embedInput.split(/\s+/);
+        const chunks: string[] = [];
+        let currentChunk: string[] = [];
+        let currentLength = 0;
+
+        for (const word of words) {
+          if (currentLength + word.length + 1 > MAX_TOKENS) {
+            chunks.push(currentChunk.join(' '));
+            currentChunk = [word];
+            currentLength = word.length;
+          } else {
+            currentChunk.push(word);
+            currentLength += word.length + 1;
+          }
+        }
+        if (currentChunk.length > 0) {
+          chunks.push(currentChunk.join(' '));
+        }
+
+        console.log(`Article ${article.article_number}: ${chunks.length} chunks`);
+
+        // Get embeddings for each chunk
+        const chunkEmbeddings = await Promise.all(
+          chunks.map(chunk => embedder(chunk, {
+            pooling: 'mean',
+            normalize: true
+          }))
+        );
+
+        // Average the embeddings
+        const embeddingSize = chunkEmbeddings[0].data.length;
+        const averagedEmbedding = new Array(embeddingSize).fill(0);
+        
+        for (const chunkEmbedding of chunkEmbeddings) {
+          const embedding = Array.from(chunkEmbedding.data);
+          for (let i = 0; i < embeddingSize; i++) {
+            averagedEmbedding[i] += embedding[i] / chunkEmbeddings.length;
+          }
+        }
+```
+
+## Processing Queston
+### OpenAI API Call to get initial answer
+```typescript
+async function getOpenAIAnswer(question, context) {
+    const messages = [
+        {
+         role: "system",
+         content: context 
+           ? "You are a swiss legal expert. Answer the question with the help of the provided articles. Cite the specific articles you reference using their article numbers."
+           : "You are a swiss legal expert. Provide a concise, factual answer to the legal question, using formal legal language."
+        },
+        {
+            role: "user",
+            content: context
+                ? `Question: ${question}\n\nRelevant articles:\n${context}`
+                : question
+        }
+    ];
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer sk-...`
+        },
+        body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages,
+            max_tokens: 300
+        })
+    });
+    if (!response.ok) {
+        throw new Error(`OpenAI API error: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data.choices[0].message.content;
+}
+```
 ## License
 
 MIT
