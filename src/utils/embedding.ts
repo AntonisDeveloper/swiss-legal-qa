@@ -101,19 +101,74 @@ export async function processLegalQuestion(question: string) {
       normalize: true
     });
 
+    // Debug logging
+    console.log('Question embedding type:', typeof questionEmbedding.data);
+    console.log('Answer embedding type:', typeof answerEmbedding.data);
+    console.log('Question embedding data:', questionEmbedding.data);
+    console.log('Answer embedding data:', answerEmbedding.data);
+
     // Ensure we have arrays for the embeddings and convert to numbers
-    const questionEmbeddingArray = Array.from(questionEmbedding.data).map(x => Number(x));
-    const answerEmbeddingArray = Array.from(answerEmbedding.data).map(x => Number(x));
+    let questionEmbeddingArray: number[];
+    let answerEmbeddingArray: number[];
+
+    try {
+      // Handle different possible data structures
+      if (questionEmbedding.data instanceof Float32Array) {
+        questionEmbeddingArray = Array.from(questionEmbedding.data);
+      } else if (Array.isArray(questionEmbedding.data)) {
+        questionEmbeddingArray = questionEmbedding.data.map((x: unknown) => Number(x));
+      } else if (typeof questionEmbedding.data === 'object') {
+        questionEmbeddingArray = Object.values(questionEmbedding.data).map((x: unknown) => Number(x));
+      } else {
+        throw new Error('Unexpected embedding data structure');
+      }
+
+      if (answerEmbedding.data instanceof Float32Array) {
+        answerEmbeddingArray = Array.from(answerEmbedding.data);
+      } else if (Array.isArray(answerEmbedding.data)) {
+        answerEmbeddingArray = answerEmbedding.data.map((x: unknown) => Number(x));
+      } else if (typeof answerEmbedding.data === 'object') {
+        answerEmbeddingArray = Object.values(answerEmbedding.data).map((x: unknown) => Number(x));
+      } else {
+        throw new Error('Unexpected embedding data structure');
+      }
+
+      // Validate arrays
+      if (!Array.isArray(questionEmbeddingArray) || !Array.isArray(answerEmbeddingArray)) {
+        throw new Error('Failed to convert embeddings to arrays');
+      }
+
+      if (questionEmbeddingArray.length === 0 || answerEmbeddingArray.length === 0) {
+        throw new Error('Empty embedding arrays');
+      }
+
+      console.log('Processed embedding arrays:', {
+        questionLength: questionEmbeddingArray.length,
+        answerLength: answerEmbeddingArray.length
+      });
+
+    } catch (error) {
+      console.error('Error processing embeddings:', error);
+      throw new Error('Failed to process embeddings: ' + (error as Error).message);
+    }
 
     // Calculate similarities and filter out empty texts
     console.log('Finding similar articles...');
     const similarities = embeddingsData
       .filter(article => article.text && article.text.trim().length > 0)
-      .map(article => ({
-        article_number: article.article_number,
-        similarity: cosineSimilarity(answerEmbeddingArray, article.embedding),
-        text: article.text
-      }));
+      .map(article => {
+        try {
+          return {
+            article_number: article.article_number,
+            similarity: cosineSimilarity(answerEmbeddingArray, article.embedding),
+            text: article.text
+          };
+        } catch (error) {
+          console.error('Error calculating similarity for article:', article.article_number, error);
+          return null;
+        }
+      })
+      .filter((item): item is NonNullable<typeof item> => item !== null);
 
     // Sort by similarity and get top 20
     const topArticles = similarities
