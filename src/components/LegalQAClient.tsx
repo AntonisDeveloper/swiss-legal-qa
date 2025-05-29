@@ -54,6 +54,16 @@ export default function LegalQAClient() {
   return (
     <main className="min-h-screen p-8 max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-8 text-center">Swiss Legal Q&A</h1>
+      <p className="text-center mb-8">
+        <a
+          href="https://github.com/AntonisDeveloper/swiss-legal-qa/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 hover:underline"
+        >
+          Code Database
+        </a>
+      </p>
       
       <form onSubmit={handleSubmit} className="mb-8">
         <div className="flex flex-col gap-4">
