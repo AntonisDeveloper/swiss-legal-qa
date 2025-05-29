@@ -40,26 +40,6 @@ A Next.js application that provides answers to legal questions based on the Swis
    - Top-20 articles displayed with their similarity score.
 
 
-## Future Improvements
-
-1. **Add Legal Structure to Embeddings**  
-   Include each article’s part, section, and subsection when generating embeddings to give the model more context and improve relevance.
-
-2. **Bring in Court Decisions**  
-   Use Swiss court rulings as an additional knowledge source. These decisions often provide practical interpretations of the law and could make the answers more grounded and useful.
-
-3. **Support Multiple Languages**  
-   Work with the original legal texts in German, French, and Italian—the official and binding versions of the law.  
-   Translate user questions into each language, run the same retrieval process, and combine the results.  
-   This would also help with court decisions, which are often published in only one of the three languages.
-
-## Tech Stack
-
-- Next.js 14
-- TypeScript
-- OpenAI API
-- Tailwind CSS
-
 ## Environment Variables
 
 - `OPENAI_API_KEY`: Your OpenAI API key
@@ -220,6 +200,20 @@ async function processLegalQuestion(question) {
     };
 }
 ```
+
+## Future Improvements
+
+1. **Add Legal Structure to Embeddings**  
+   Include each article’s part, section, and subsection when generating embeddings to give the model more context and improve relevance.
+
+2. **Bring in Court Decisions**  
+   Use Swiss court rulings as an additional knowledge source. These decisions often provide practical interpretations of the law and could make the answers more grounded and useful.
+
+3. **Support Multiple Languages**  
+   Work with the original legal texts in German, French, and Italian—the official and binding versions of the law.  
+   Translate user questions into each language, run the same retrieval process, and combine the results.  
+   This would also help with court decisions, which are often published in only one of the three languages.
+
 
 ## License
 
