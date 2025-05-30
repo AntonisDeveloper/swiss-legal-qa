@@ -161,7 +161,7 @@ export async function processLegalQuestion(question: string) {
           return {
             article_number: article.article_number,
             similarity: cosineSimilarity(answerEmbeddingArray, article.embedding),
-            text: article.article_text
+            article_text: article.article_text
           };
         } catch (error) {
           console.error('Error calculating similarity for article:', article.article_number, error);
