@@ -203,20 +203,20 @@ async function processLegalQuestion(question) {
 ```
 ## Example
 **Question:** 
-```An elderly woman with dementia gifts CHF 100,000 to her new caregiver. Can her children challenge the gift after her death?
-```
+An elderly woman with dementia gifts CHF 100,000 to her new caregiver. Can her children challenge the gift after her death?
+
 **GPT Initial Answer:** 
-```Under Swiss law, gifts made by individuals suffering from dementia may be challenged by their heirs if it can be proven that the donor lacked the necessary mental capacity to comprehend the consequences of the gift at the time it was made. The burden of proof lies with the heirs to demonstrate that the donor was not capable of understanding the nature and consequences of the gift. If the court determines that the donor lacked capacity at the time of the gift, it may be declared null and void, and the amount may be reclaimed for the estate to be distributed among the heirs according to the law of succession.
-```
+Under Swiss law, gifts made by individuals suffering from dementia may be challenged by their heirs if it can be proven that the donor lacked the necessary mental capacity to comprehend the consequences of the gift at the time it was made. The burden of proof lies with the heirs to demonstrate that the donor was not capable of understanding the nature and consequences of the gift. If the court determines that the donor lacked capacity at the time of the gift, it may be declared null and void, and the amount may be reclaimed for the estate to be distributed among the heirs according to the law of succession.
+
 **Our Answer (GPT + articles retrieval)**:
-```In the scenario provided, where an elderly woman with dementia gifts CHF 100,000 to her new caregiver, her children may challenge the gift after her death under certain circumstances. According to Swiss law, a gift can be revoked under specific conditions as outlined in Articles OR Art. 249 and OR Art. 251. These include instances where the recipient has committed a serious criminal offense against the donor, grossly neglected duties under family law towards the donor, or failed to fulfill the provisos attached to the gift.
+In the scenario provided, where an elderly woman with dementia gifts CHF 100,000 to her new caregiver, her children may challenge the gift after her death under certain circumstances. According to Swiss law, a gift can be revoked under specific conditions as outlined in Articles OR Art. 249 and OR Art. 251. These include instances where the recipient has committed a serious criminal offense against the donor, grossly neglected duties under family law towards the donor, or failed to fulfill the provisos attached to the gift.
 
 Additionally, the heirs of the donor may have the right to challenge the gift if the recipient has wilfully and unlawfully caused the donor's death or prevented the donor from exercising their right of revocation (Article OR Art. 251). The heirs would need to act within the time frame specified in the law to exercise their right of challenge or revocation of the gift.
 
 Furthermore, if the gift was given within the last five years before the donor's death, and it is found that the gift was made to circumvent the payment of credit or to reduce the inheritance benefits, the heirs may have grounds to challenge the gift under Article ZGB Art. 494.
 
 In conclusion, in the case of an elderly woman with dementia gifting a substantial amount to her caregiver, her children may challenge the gift after her death based on the specific legal grounds outlined above.
-```
+
 
 
 ## Future Improvements
