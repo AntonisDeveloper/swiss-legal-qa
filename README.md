@@ -211,7 +211,7 @@ async function processLegalQuestion(question) {
    Use Swiss court rulings as an additional knowledge source. These decisions often provide practical interpretations of the law and could make the answers more grounded and useful.
 
 3. **Support Multiple Languages**  
-   Work with the original legal texts in German, French, and Italian—the official and binding versions of the law.  
+   Work with the original legal texts in German, French, and Italian the binding versions of the law.  
    Translate user questions into each language, run the same retrieval process, and combine the results.  
    This would also help with court decisions, which are often published in only one of the three languages.
 
