@@ -11,7 +11,7 @@ import { pipeline } from '@xenova/transformers';
 interface ArticleEmbedding {
   article_number: string;
   embedding: number[];
-  article_text: string;
+  text: string;
 }
 
 // Function to compute cosine similarity
@@ -155,13 +155,13 @@ export async function processLegalQuestion(question: string) {
     // Calculate similarities and filter out empty texts
     console.log('Finding similar articles...');
     const similarities = embeddingsData
-      .filter(article => article.article_text && article.article_text.trim().length > 0)
+      .filter(article => article.text && article.text.trim().length > 0)
       .map(article => {
         try {
           return {
             article_number: article.article_number,
             similarity: cosineSimilarity(answerEmbeddingArray, article.embedding),
-            article_text: article.article_text
+            text: article.text
           };
         } catch (error) {
           console.error('Error calculating similarity for article:', article.article_number, error);
@@ -177,7 +177,8 @@ export async function processLegalQuestion(question: string) {
 
     // Concatenate articles with their numbers
     const articlesContext = topArticles
-      .map(article => `Article ${article.article_number}:\n${article.article_text}`)
+      .map(article => `Article ${article.article_number}:
+${article.text}`)
       .join('\n\n');
 
     // Get final answer using the articles as context
