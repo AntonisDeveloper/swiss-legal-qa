@@ -11,7 +11,7 @@ import { pipeline } from '@xenova/transformers';
 interface ArticleEmbedding {
   article_number: string;
   embedding: number[];
-  text: string;
+  article_text: string;
 }
 
 // Function to compute cosine similarity
