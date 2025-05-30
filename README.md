@@ -1,6 +1,5 @@
 # Swiss Legal QA App
 
-## DEMO: [`APP`](https://swiss-legal-qa.vercel.app/)
 
 ## Pipeline
 ### Pre-processing
