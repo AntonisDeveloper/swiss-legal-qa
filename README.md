@@ -1,6 +1,6 @@
 # Swiss Legal QA App
 
-A Next.js application that provides answers to legal questions based on the Swiss Civil Code and Code of Obligations, and together using OpenAI's GPT model.
+## DEMO: [`APP`](https://swiss-legal-qa.vercel.app/)
 
 ## Pipeline
 ### Pre-processing
