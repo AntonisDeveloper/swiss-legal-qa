@@ -204,8 +204,8 @@ async function processLegalQuestion(question) {
 
 ## Future Improvements
 
-1. **Add Legal Structure to Embeddings**  
-   Include each article’s part, section, and subsection when generating embeddings to give the model more context and improve relevance.
+1. **Add more granularity to the article retrieval**  
+   First decide whether the question should be studied through ZGB or OR, or even both, then do a similarity search only on relevant articles => reduce false positives.
 
 2. **Bring in Court Decisions**  
    Use Swiss court rulings as an additional knowledge source. These decisions often provide practical interpretations of the law and could make the answers more grounded and useful.
