@@ -4,8 +4,10 @@ A Next.js application that provides answers to legal questions based on the Swis
 
 ## Pipeline
 ### Pre-processing
-1. **Source**  
-   Legal texts are sourced from the English translation of the Swiss Civil Code via the [Official Swiss Federal Law Database](https://www.fedlex.admin.ch/eli/cc/24/233_245_233/en).
+### 1. **Source**
+
+The legal texts are sourced from the legally binding German version of the **Swiss Civil Code**, available via the [Official Swiss Federal Law Database](https://www.fedlex.admin.ch/eli/cc/24/233_245_233/de). 
+All texts were translated into English using the machine translation model [`Helsinki-NLP/opus-mt-de-en`](https://huggingface.co/Helsinki-NLP/opus-mt-de-en), except for the **Code of Obligations**, where the official English translation was used.
 
 2. **Data Extraction**  
    Articles are extracted and converted into a structured CSV format using a combination of manual and LLM parsing.
