@@ -1,6 +1,6 @@
 # Swiss Legal QA App
 
-A Next.js application that provides answers to legal questions based on the Swiss Civil Code, using OpenAI's GPT model.
+A Next.js application that provides answers to legal questions based on the Swiss Civil Code and Code of Obligations, and together using OpenAI's GPT model.
 
 ## Pipeline
 ### Pre-processing
