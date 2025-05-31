@@ -14,6 +14,7 @@ All texts were translated into English using the machine translation model [`Hel
 3. **Embedding Generation**  
    Each article is embedded using `Xenova/paraphrase-MiniLM-L6-v2`, producing 384-dimensional vectors.
 
+---
 Below, one can see the visualization of the 2d PCA of the articles embeddings (OR-blue, ZGB-orange)
 
 <img src="PCA_2dim_visualization.png" height="300">
