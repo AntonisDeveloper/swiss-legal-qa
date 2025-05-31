@@ -1,5 +1,5 @@
 # Swiss Legal QA App
-Demo App showing the power of combining classical information retrieval with LLMs.
+Demo App showing the power of combining classical information retrieval with LLMs in the context of the law.
 
 ## Pipeline
 ### Pre-processing
