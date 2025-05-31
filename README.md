@@ -235,7 +235,7 @@ In conclusion, in the case of an elderly woman with dementia gifting a substanti
 1. **Add more granularity to the article retrieval**  
    First decide whether the question should be studied through ZGB or OR, or even both, then do a similarity search only on relevant articles => reduce false positives.
 
-2. **Incorporate all relevant legal corpora** — including the Federal Constitution, Federal Laws, Federal Ordinances, Cantonal Constitutions, Cantonal Laws, etc.  
+2. **Incorporate all relevant legal corpora** including the Federal Constitution, Federal Laws, Federal Ordinances, Cantonal Constitutions, Cantonal Laws, etc.  
    Ensure that all necessary legal articles are included.
    
 4. **Bring in Court Decisions**  
