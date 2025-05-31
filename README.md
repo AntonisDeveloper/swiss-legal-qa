@@ -1,5 +1,5 @@
 # Swiss Legal QA App
-Demo App showing the power of combining classical information retrieval with LLMs in the context of the law. This is an MVP, built in approximately 15 hours of work.
+Demo App showing the power of combining classical information retrieval with LLMs in the context of the law. This project is only an MVP, built in 15-20 hours of work.
 
 ## Pipeline
 ### Pre-processing
