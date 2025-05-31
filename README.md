@@ -20,6 +20,7 @@ Below, one can see the visualization of the 2d PCA of the articles embeddings (O
 <p align="center">
   <img src="PCA_2dim_visualization.png" height="300">
 </p>
+
 ---
 
 ### Runtime Flow
@@ -46,6 +47,7 @@ Below, one can see the visualization of the 2d PCA of the articles embeddings (O
    - Legal answer is returned, including proper citations.  
    - Top-20 articles displayed with their similarity score.
 
+---
 
 ## Environment Variables
 
@@ -207,6 +209,7 @@ async function processLegalQuestion(question) {
     };
 }
 ```
+---
 ## Example
 **Question:** 
 An elderly woman with dementia gifts CHF 100,000 to her new caregiver. Can her children challenge the gift after her death?
@@ -224,6 +227,7 @@ Furthermore, if the gift was given within the last five years before the donor's
 In conclusion, in the case of an elderly woman with dementia gifting a substantial amount to her caregiver, her children may challenge the gift after her death based on the specific legal grounds outlined above.
 
 
+--- 
 
 ## Future Improvements
 
