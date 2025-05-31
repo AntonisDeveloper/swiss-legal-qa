@@ -242,6 +242,21 @@ In conclusion, in the case of an elderly woman with dementia gifting a substanti
    Translate user questions into each language, run the same retrieval process, and combine the results.  
    This would also help with court decisions, which are often published in only one of the three languages.
 
+## Preprocessing vs Runtime Tradeoff
+
+When considering future improvements, the key question is the intended **application type**.
+
+Swiss legal texts—whether statutes or court rulings—are legally binding in **German**, **French**, and **Italian**. These texts are **highly nuanced**, and automated translation models may introduce critical errors by **mistranslating or oversimplifying** doctrinal terms. This issue becomes even more pronounced with **court rulings**, where longer contexts and more subjective language further complicate translation accuracy.
+
+Additionally, translation models introduce **runtime overhead** due to the extra computational resources required during query processing.
+
+- If the goal is **fast, interactive applications** (e.g., legal Q&A or chatbots), it is more efficient to **preprocess** the entire legal corpus by translating it to **English**, and then perform **information retrieval** or LLM-based reasoning on the translated content.
+  
+- If the application involves **deep analysis of complex legal cases**—such as reviewing multiple lengthy documents—it may be preferable to work directly with the **original texts** in the source languages to preserve legal precision.
+
+This leads to a further tradeoff: Should we use **LLMs and embedding models trained for Swiss languages**, or rely on **English models**, which are significantly more advanced in terms of performance and availability?
+
+Choosing the right balance between **preprocessing cost**, **runtime efficiency**, and **linguistic fidelity** depends heavily on the application’s use case and required level of legal precision.
 
 ## License
 
