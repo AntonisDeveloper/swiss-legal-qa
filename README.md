@@ -235,10 +235,13 @@ In conclusion, in the case of an elderly woman with dementia gifting a substanti
 1. **Add more granularity to the article retrieval**  
    First decide whether the question should be studied through ZGB or OR, or even both, then do a similarity search only on relevant articles => reduce false positives.
 
-2. **Bring in Court Decisions**  
+2. **Incorporate all relevant legal corpora** — including the Federal Constitution, Federal Laws, Federal Ordinances, Cantonal Constitutions, Cantonal Laws, etc.  
+   Ensure that all necessary legal articles are included.
+   
+4. **Bring in Court Decisions**  
    Use Swiss court rulings as an additional knowledge source. These decisions often provide practical interpretations of the law and could make the answers more grounded and useful.
 
-3. **Support Multiple Languages**  
+5. **Support Multiple Languages**  
    Work with the original legal texts in German, French, and Italian the binding versions of the law.  
    Translate user questions into each language, run the same retrieval process, and combine the results.  
    This would also help with court decisions, which are often published in only one of the three languages.
