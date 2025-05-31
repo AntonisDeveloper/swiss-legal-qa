@@ -125,8 +125,8 @@ async function getOpenAIAnswer(question, context) {
         {
          role: "system",
          content: context 
-           ? "You are a swiss legal expert. Answer the question with the help of the provided articles. Cite the specific articles you reference using their article numbers."
-           : "You are a swiss legal expert. Provide a concise, factual answer to the legal question, using formal legal language."
+        ? "You are a swiss legal expert. Answer the question with the help of the provided articles and others you know. Cite the specific articles you reference using their article numbers."
+        : "You are a swiss legal expert. Answer the question with the help of articles you know. Cite the specific articles you reference using their article numbers."
         },
         {
             role: "user",
