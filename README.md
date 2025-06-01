@@ -20,7 +20,7 @@ We tested the system on a subset (131 questions) of the [LEXam Benchmark](https:
 - **LLM-based scoring:** GPT-3.5-turbo is asked to grade the initial and final answers (from 1 to 10) compared to the correct answer.
 - **Cosine similarity:** We compute the similarity between the initial/final answer and the correct answer in the text embedding space.
 
-**[Results](/results.csv):**
+[**Results:**](/results.csv)
 - **Average initial answer score:** 6.55
 - **Average final answer score:** 6.86
 - **Average initial answer similarity:** 0.7598
