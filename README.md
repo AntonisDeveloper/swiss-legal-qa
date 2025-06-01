@@ -16,7 +16,7 @@ The app leverages both LLMs and traditional retrieval methods to answer legal qu
 3. **Contextual Answer:** The original question, along with these top articles, is sent to GPT-3.5-turbo again to generate a more informed, context-aware answer.
 
 **Evaluation:**  
-We tested the system on a subset (131 questions) of the [LEXam Benchmark](https://huggingface.co/datasets/LEXam-Benchmark/LEXam) [1] for Swiss law courses. We used two metrics:
+We tested the system on a subset (131 questions) of the [LEXam Benchmark](https://huggingface.co/datasets/LEXam-Benchmark/LEXam) [1] for Swiss law courses ("Grundbuchrecht", "Arbeitsrecht", "Immobiliarsachenrecht") and for swiss jurisdiction. We used two metrics:
 - **LLM-based scoring:** GPT-3.5-turbo is asked to grade the initial and final answers (from 1 to 10) compared to the correct answer.
 - **Cosine similarity:** We compute the similarity between the initial/final answer and the correct answer in the text embedding space.
 
