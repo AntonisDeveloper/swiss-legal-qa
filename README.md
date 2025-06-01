@@ -22,9 +22,9 @@ We tested the system on a subset (131 questions) of the [LEXam Benchmark](https:
 
 [**Results:**](/results.csv)
 - **Average initial answer score:** 6.55
-- **Average final answer score:** 6.86
+- **Average final answer score:** **6.86**
 - **Average initial answer similarity:** 0.7598
-- **Average final answer similarity:** 0.7664
+- **Average final answer similarity:** **0.7664**
 
 
 
