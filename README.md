@@ -287,6 +287,15 @@ async function processLegalQuestion(question) {
     };
 }
 ```
+
+## References
+
+[1] Yu Fan, Jingwei Ni, Jakob Merane, Etienne Salimbeni, Yang Tian, Yoan Hermstrüwer, Yinya Huang, Mubashara Akhtar, Florian Geering, Oliver Dreyer, et al.  
+"LEXam: Benchmarking Legal Reasoning on 340 Law Exams."  
+arXiv preprint arXiv:2505.12864, 2025.  
+[https://arxiv.org/abs/2505.12864](https://arxiv.org/abs/2505.12864)
+
+
 ## License
 
 MIT
