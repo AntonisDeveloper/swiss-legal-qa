@@ -131,6 +131,162 @@ Below is a 2D PCA plot of the article embeddings (OR in blue, ZGB in orange):
 
 ---
 
+# Main code
+
+## Preprocessing
+### Load Model:
+```typescript
+import { pipeline } from '@xenova/transformers';
+const embedder = await pipeline('feature-extraction', 'Xenova/paraphrase-MiniLM-L6-v2') as EmbedderFunction;
+```
+
+### Embed Articles:
+```typescript
+const batchSize = 10;
+  for (let i = 0; i < articles.length; i += batchSize) {
+    const batch = articles.slice(i, i + batchSize);
+    console.log(`Processing batch ${i/batchSize + 1} of ${Math.ceil(articles.length/batchSize)}`);
+    
+    for (const article of batch) {
+      try {
+        // Create the input string
+        const embedInput = `${article.article_text}`;
+
+        // Split long text into chunks
+        const words = embedInput.split(/\s+/);
+        const chunks: string[] = [];
+        let currentChunk: string[] = [];
+        let currentLength = 0;
+
+        for (const word of words) {
+          if (currentLength + word.length + 1 > MAX_TOKENS) {
+            chunks.push(currentChunk.join(' '));
+            currentChunk = [word];
+            currentLength = word.length;
+          } else {
+            currentChunk.push(word);
+            currentLength += word.length + 1;
+          }
+        }
+        if (currentChunk.length > 0) {
+          chunks.push(currentChunk.join(' '));
+        }
+
+        console.log(`Article ${article.article_number}: ${chunks.length} chunks`);
+
+        // Get embeddings for each chunk
+        const chunkEmbeddings = await Promise.all(
+          chunks.map(chunk => embedder(chunk, {
+            pooling: 'mean',
+            normalize: true
+          }))
+        );
+
+        // Average the embeddings
+        const embeddingSize = chunkEmbeddings[0].data.length;
+        const averagedEmbedding = new Array(embeddingSize).fill(0);
+        
+        for (const chunkEmbedding of chunkEmbeddings) {
+          const embedding = Array.from(chunkEmbedding.data);
+          for (let i = 0; i < embeddingSize; i++) {
+            averagedEmbedding[i] += embedding[i] / chunkEmbeddings.length;
+          }
+        }
+```
+
+## Runtime Backend
+### OpenAI API Call to get initial answer
+```typescript
+async function getOpenAIAnswer(question, context) {
+    const messages = [
+        {
+         role: "system",
+         content: context 
+        ? "You are a swiss legal expert. Answer the question with the help of the provided articles and others you know. Cite the specific articles you reference using their article numbers."
+        : "You are a swiss legal expert. Answer the question with the help of articles you know. Cite the specific articles you reference using their article numbers."
+        },
+        {
+            role: "user",
+            content: context
+                ? `Question: ${question}\n\nRelevant articles:\n${context}`
+                : question
+        }
+    ];
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer sk-...`
+        },
+        body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages,
+            max_tokens: 300
+        })
+    });
+    if (!response.ok) {
+        throw new Error(`OpenAI API error: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data.choices[0].message.content;
+}
+```
+### Cosine Similarity
+```typescript
+function cosineSimilarity(vecA, vecB) {
+    const dotProduct = vecA.reduce((sum, a, i) => sum + a * vecB[i], 0);
+    const magnitudeA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0));
+    const magnitudeB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0));
+    return dotProduct / (magnitudeA * magnitudeB);
+}
+```
+
+### Main Processing part
+```typescript
+async function processLegalQuestion(question) {
+    // Load text embedder 
+    const embedder = await (0, transformers_1.pipeline)('feature-extraction', 'Xenova/paraphrase-MiniLM-L6-v2');
+    // Get initial answer from OpenAI
+    const initialAnswer = await getOpenAIAnswer(question);
+
+    // Load article embeddings
+    console.log('Loading article embeddings...');
+    const embeddingsData = JSON.parse(fs.readFileSync('article_embeddings.json', 'utf-8'));
+
+    // Create embeddings for initial answer
+    const answerEmbedding = await embedder(initialAnswer, {
+        pooling: 'mean',
+        normalize: true
+    });
+
+    // Calculate cosine similarities
+    const similarities = embeddingsData
+        .map(article => ({
+        article_number: article.article_number,
+        similarity: cosineSimilarity(answerEmbedding, article.embedding),
+        text: article.text
+    }));
+    // Sort by similarity and get top 20
+    const topArticles = similarities
+        .sort((a, b) => b.similarity - a.similarity)
+        .slice(0, 20);
+
+    // Concatenate articles with their numbers
+    const articlesContext = topArticles
+        .map(article => `Article ${article.article_number}:\n${article.text}`)
+        .join('\n\n');
+
+    // Get final answer using the articles as context
+    const finalAnswer = await getOpenAIAnswer(question, articlesContext);
+    console.log('\nFinal Answer:', finalAnswer);
+    return {
+        question,
+        initialAnswer,
+        finalAnswer,
+        topArticles
+    };
+}
+```
 ## License
 
 MIT
