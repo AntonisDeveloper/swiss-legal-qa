@@ -44,7 +44,7 @@ async function getOpenAIAnswer(question: string, context?: string): Promise<stri
       role: "system",
       content: context 
         ? "You are a swiss legal expert. Answer the question with the help of the provided articles and others you know. Cite the specific articles you reference using their article numbers."
-        : "You are a swiss legal expert. Answer the question taking into account the Swiss Civil Code and the Code of Obligations."
+        : "You are a swiss legal expert. Answer the question in a concise and precise way."
     },
     {
       role: "user",
