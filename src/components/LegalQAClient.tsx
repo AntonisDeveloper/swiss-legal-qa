@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { processLegalQuestion } from '@/utils/embedding';
 
 export default function LegalQAClient() {
-  const [question, setQuestion] = useState('');
+  const [question, setQuestion] = useState('An elderly woman with dementia gifts CHF 100,000 to her new caregiver. Can her children challenge the gift after her death?');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<{
