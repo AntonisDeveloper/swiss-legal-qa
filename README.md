@@ -26,6 +26,9 @@ We tested the system on a subset (131 questions) of the [LEXam Benchmark](https:
 - **Average initial answer similarity:** 0.7598
 - **Average final answer similarity:** **0.7664**
 
+Prompts used:
+1. Initial answer (no retrieval): "You are a swiss legal expert. Answer the question with the help of articles you know. Cite the specific articles you reference using their article numbers."         
+2. Final answer (with retrieval): "You are a swiss legal expert. Answer the question with the help of the provided articles and others you know. Cite the specific articles you reference using their article numbers."
 
 
 Even with state-of-the-art LLMs, classical retrieval adds value, showing the potential for legal AI agents.
