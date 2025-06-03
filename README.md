@@ -2,7 +2,7 @@
 
 **Demo:** [Swiss Legal Q&A](https://swiss-legal-qa.vercel.app/)
 
-This project demonstrates how combining classical information retrieval with large language models (LLMs) can enhance legal question answering. Built as a minimum viable product (MVP) in about 20 hours, it showcases the power of hybrid AI approaches in the legal domain.
+This project demonstrates how combining classical information retrieval with large language models (LLMs) can enhance legal question answering. Built as a minimum viable product (MVP) in about 10 hours, it showcases the power of hybrid AI approaches in the legal domain.
 
 ---
 
